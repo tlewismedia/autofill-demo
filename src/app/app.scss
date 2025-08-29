@@ -1,0 +1,63 @@
+.form {
+  border: 1px solid black;
+  padding: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input {
+  font-size: 1rem;
+  padding: 0.8rem;
+  color: black;
+}
+
+.suggestion_showing {
+  .input {
+    color: white;
+  }
+}
+
+.input.visible {
+  transition: color 0.3s 0.1s linear;
+  color: black;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+}
+
+.suggestion {
+  background: black;
+  color: white;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0.5rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+}
+
+.suggestions {
+  overflow: hidden;
+  transition: all 0.2s linear;
+  opacity: 1;
+  //   transform: translateY(0);
+  //   max-height: 100px; // adjust based on content size
+
+  &.hidden {
+    opacity: 0;
+    // transform: translateY(-20px); // slide up
+    margin-top: -50.5px;
+    transition: all 0.2s linear;
+  }
+}
+
+button {
+  display: inline-block;
+  margin: auto;
+}
