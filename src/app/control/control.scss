@@ -1,0 +1,19 @@
+.control {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  color: black;
+}
+
+.suggestion_showing {
+  .input {
+    color: white;
+  }
+}
+
+.input.visible {
+  transition: color 0.3s 0.1s linear;
+  color: black;
+}

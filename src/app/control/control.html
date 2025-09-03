@@ -1,0 +1,23 @@
+<!-- show: {{ field.showSuggestions }} -->
+
+<div [ngClass]="{'control': true, 'suggestion_showing': field.showSuggestions}">
+  <label for="">{{ field.label }}</label>
+
+  <input
+    [ngClass]="{'input': true, 'visible': suggestionApplied}"
+    type="text"
+    [(ngModel)]="field.value"
+    (click)="inputClick()"
+  />
+
+  <!-- [showSuggestions]="state.fields.firstName.showSuggestions" -->
+  <!-- [field]="state.fields.firstName"
+    [suggestionTransitioned]="suggestionTransitioned" -->
+
+  <app-suggestion
+    *ngIf="suggestion"
+    [suggestion]="suggestion"
+    [showSuggestions]="field.showSuggestions"
+    (suggestionClick)="onSuggestionClick($event)"
+  ></app-suggestion>
+</div>

@@ -1,0 +1,7 @@
+<!-- *ngIf="!suggestionTransitioned && !suggestionTransitioned"
+  [ngClass]="{'suggestions': true, 'hidden': !showSuggestions}" -->
+<div [ngClass]="{'suggestions': true, 'hidden': !showSuggestions}">
+  <div class="suggestion" (click)="handleClick(suggestion)">
+    {{ suggestion }}
+  </div>
+</div>

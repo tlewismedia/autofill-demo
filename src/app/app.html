@@ -1,54 +1,53 @@
 <div class="form">
   <h1>Example Form</h1>
-
-  <div
-    class="control"
-    [ngClass]="{'control': true, 'suggestion_showing': state.fields.firstName.showSuggestions}"
-  >
-    <label for="">First Name</label>
-
-    <input
-      [ngClass]="{'input': true, 'visible': state.fields.firstName.suggestionApplied}"
-      type="text"
-      [(ngModel)]="state.fields.firstName.value"
-      (click)="state.fields.firstName.showSuggestions = false"
-    />
-
-    <div
-      *ngIf="!state.fields.firstName.suggestionTransitioned && !state.fields.firstName.suggestionTransitioned"
-      [ngClass]="{'suggestions': true, 'hidden': !state.fields.firstName.showSuggestions}"
-    >
-      <div class="suggestion" (click)="suggestionClick('firstName','Tom')">
-        Tom
-      </div>
-      <div class="suggestion" (click)="suggestionClick('firstName','Thomas')">
-        Thomas
-      </div>
-    </div>
-  </div>
-
-  <div
-    class="control"
-    [ngClass]="{'control': true, 'suggestion_showing': state.fields.lastName.showSuggestions}"
-  >
-    <label for="">Last Name</label>
-
-    <input
-      [ngClass]="{'input': true, 'visible': state.fields.lastName.suggestionApplied}"
-      type="text"
-      [(ngModel)]="state.fields.lastName.value"
-      (click)="state.fields.lastName.showSuggestions = false"
-    />
-
-    <div
-      *ngIf="!state.fields.lastName.suggestionTransitioned && !state.fields.lastName.suggestionTransitioned"
-      [ngClass]="{'suggestions': true, 'hidden': !state.fields.lastName.showSuggestions}"
-    >
-      <div class="suggestion" (click)="suggestionClick('lastName','Lewis')">
-        Lewis
-      </div>
-    </div>
-  </div>
+  <!-- todo: remove getSuggestion function call -->
+  <app-control
+    *ngFor="let field of state.fields"
+    [field]="field"
+    [showSuggestions]="field.showSuggestions"
+    [suggestionApplied]="field.suggestionApplied"
+    [suggestion]="getSuggestion(field)"
+    (suggestionClick)="suggestionClick($event)"
+    (showSuggestionsChange)="showSuggestionsChange()"
+  ></app-control>
 
   <button (click)="reset()">Reset</button>
+  <button (click)="onSubmit()">Submit</button>
+  <button (click)="onNewForm()">New Form</button>
+
+  <hr />
+
+  <div class="thes_vault">
+    <div class="thes">
+      <h1>Thesaurus</h1>
+
+      <table *ngFor="let thesaurusItem of thesaurus" class="thes_vault_item">
+        <tr>
+          <td>Label:</td>
+          <td>{{ thesaurusItem.label }}</td>
+        </tr>
+
+        <tr>
+          <td>Canonical:</td>
+          <td>{{ thesaurusItem.canonical }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="vault">
+      <h1>Vault</h1>
+
+      <table *ngFor="let vaultItem of vault" class="thes_vault_item">
+        <tr>
+          <td>Canonical:</td>
+          <td>{{ vaultItem.canonical }}</td>
+        </tr>
+
+        <tr>
+          <td>Value:</td>
+          <td>{{ vaultItem.value }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>

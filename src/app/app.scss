@@ -15,49 +15,13 @@
   color: black;
 }
 
-.suggestion_showing {
-  .input {
-    color: white;
-  }
-}
-
-.input.visible {
-  transition: color 0.3s 0.1s linear;
-  color: black;
-}
-
-.control {
+.thes_vault {
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
 }
 
-.suggestion {
-  background: black;
-  color: white;
-  padding: 0.5rem;
-  cursor: pointer;
-  display: inline-block;
-  margin: 0.5rem;
-  border-radius: 0.3rem;
-  font-size: 1rem;
-}
-
-.suggestions {
-  overflow: hidden;
-  transition: all 0.2s linear;
-  opacity: 1;
-  //   transform: translateY(0);
-  //   max-height: 100px; // adjust based on content size
-
-  &.hidden {
-    opacity: 0;
-    // transform: translateY(-20px); // slide up
-    margin-top: -50.5px;
-    transition: all 0.2s linear;
-  }
-}
-
-button {
-  display: inline-block;
-  margin: auto;
+.thes_vault_item {
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px;
 }
