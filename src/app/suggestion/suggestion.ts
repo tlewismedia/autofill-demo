@@ -9,7 +9,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   standalone: true,
 })
 export class Suggestion {
-  // @Input() field: { field: string; value: string } = { field: '', value: '' };
   @Input() suggestionTransitioned: boolean = false;
   @Input() showSuggestions: boolean = false;
   @Input() suggestion: string = '';
