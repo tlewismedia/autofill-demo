@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Suggestion } from './suggestion/suggestion';
 import { Control } from './control/control';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 const intitialState = {
   fields: [
@@ -68,21 +70,43 @@ const vault = [
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, FormsModule, Suggestion, Control],
+  imports: [
+    CommonModule,
+    FormsModule,
+    Control,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   standalone: true,
 })
-export class App {
+export class App implements OnInit {
   protected title = 'autofill';
   state = JSON.parse(JSON.stringify(intitialState));
   thesaurus = thesaurus;
   vault = vault;
+  private _snackBar = inject(MatSnackBar);
+
+  ngOnInit(): void {
+    this.newFormToast();
+  }
+
+  newFormToast() {
+    this.openSnackBar('There are suggestions from your Vault.', 'OK', {
+      duration: 4000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
+
+  openSnackBar(message: string, action: string, config: any) {
+    this._snackBar.open(message, action, config);
+  }
 
   setFieldValueById(fieldId: any, value: any) {}
   suggestionClick(event: any) {
-    console.log('suggestionClick', event);
-
     const id = event.fieldId;
     const value = event.value;
 
@@ -94,16 +118,12 @@ export class App {
       const idx = this.state.fields.indexOf(foundField);
       this.state.fields[idx].value = value;
 
-      // set hide state for suggestions
       this.state.fields[idx].showSuggestions = false;
-
       this.state.fields[idx].suggestionApplied = true;
       setTimeout(() => {
         this.state.fields[idx].suggestionTransitioned = true;
       }, 200);
     }
-
-    // set value of field to value and fade in
   }
 
   reset() {
@@ -112,20 +132,14 @@ export class App {
 
   showSuggestionsChange() {
     console.log('showSuggestionsChange');
-    // set to false for field whoes input was clicked
   }
 
   getSuggestion(field: any) {
-    // console.log('in getSuggestion for field:');
-    // console.log(field);
-
     const foundThesaurusItem = thesaurus.find(
       (thesaurusItem) => thesaurusItem.label === field.label
     );
 
     if (foundThesaurusItem) {
-      // console.log('foundThesaurusItem: ');
-      // console.log(foundThesaurusItem);
       const canonical = foundThesaurusItem.canonical;
 
       const foundSuggestion = vault.find(
@@ -134,9 +148,6 @@ export class App {
 
       const suggestion = foundSuggestion?.value;
 
-      // console.log('returning suggestion');
-      // console.log(suggestion);
-
       return suggestion;
     }
 
@@ -144,23 +155,25 @@ export class App {
   }
 
   saveToVault(fields: any) {
-    console.log('saveToVault');
-    console.log(fields);
-
     fields.forEach((field: any) => {
       vault.push({
         value: field.value,
         canonical: field.canonical,
       });
     });
+
+    this.openSnackBar(
+      'Your Vault has been updated.',
+      "Wait, don't save those!",
+      {
+        duration: 4000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      }
+    );
   }
 
   onSubmit() {
-    console.log('onSubmit');
-
-    //save new fields to vault
-
-    // fields without suggestions
     const fieldsWithoutSuggestions = this.state.fields.filter(
       (field: { suggestion: any }) => !field.suggestion
     );
@@ -174,11 +187,10 @@ export class App {
     this.state.fields[2].suggestion = mockValue;
   }
 
-  // simulate new state updated with added field value
   onNewForm() {
-    console.log('onNewForm');
     const mockValue = this.state.fields[2].value;
     this.reset();
     this.mockStateUpdate(mockValue);
+    this.newFormToast();
   }
 }
